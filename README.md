@@ -52,6 +52,17 @@ Les contrôles indiqués « réussi » ci-dessous ont été exécutés sur la ve
 
 Les exemples avec secret fixe utiliseront `startGame({ secret: [...] })` en mode test. La conformité de l’API n’a pas encore été vérifiée.
 
+### Essai manuel confirmé
+
+Le 12 novembre 2026, l’étudiante a essayé la démonstration locale fournie dans `Code-secret-etape-1.zip`, version 0.1.0 correspondant au commit `474bb8059a467ad582137eb59af0bdf2f197e647`.
+
+| Action | Attendu | Observé rapporté par l’étudiante | Statut |
+| --- | --- | --- | --- |
+| Choisir trois couleurs et valider | Message de refus ; compteur à 0/10. | Message de refus affiché ; compteur resté à 0/10. | Réussi, manuel. |
+| Ajouter la quatrième couleur et valider | Proposition dans l’historique ; compteur à 1/10. | Proposition enregistrée ; compteur passé à 1/10. | Réussi, manuel. |
+
+Ces observations sont rapportées par l’étudiante, sans observation directe de son écran par Codex. Le navigateur et l’appareil ne sont pas précisés. Elles ne vérifient pas les indices, le moteur complet ou l’API, encore absents.
+
 ### Reproduire les contrôles de cette étape
 
 Depuis la racine du dépôt, avec Node.js et npm disponibles et un accès réseau pour les premiers téléchargements :
