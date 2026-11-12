@@ -4,7 +4,11 @@ Jeu solo inspiré du Mastermind : retrouver un code caché de quatre couleurs en
 
 ## État actuel
 
-Cadrage uniquement : le jeu, les tests exécutables et l’API commune ne sont pas encore réalisés. Aucune application publiée et aucun test du jeu exécuté. Le résultat visé est une application sur GitHub Pages, utilisable sur ordinateur et smartphone, au clavier et au toucher. Le lien et le mode d’emploi seront ajoutés après réalisation.
+Version **0.1.0 — sélection et validation** : quatre sélecteurs nommés, indicateur du nombre de couleurs, refus des propositions incomplètes, enregistrement des propositions complètes, compteur et remise à zéro. Le code caché, les indices, la victoire/défaite et l’API commune ne sont pas encore réalisés. Ce prototype ne constitue pas encore une partie complète de Code secret.
+
+Pour essayer : récupérer la branche `dev`, puis ouvrir [index.html](index.html) localement dans un navigateur. Aucun serveur ni installation n’est nécessaire pour cette démonstration. Choisir trois couleurs et valider : le refus doit laisser le compteur et l’historique inchangés. Ajouter la quatrième puis valider : une proposition est enregistrée. « Recommencer » efface cette série de propositions.
+
+L’application n’est pas encore publiée sur GitHub Pages. Le rendu visé reste utilisable sur ordinateur et smartphone, au clavier et au toucher.
 
 ## Règles et source
 
@@ -21,9 +25,9 @@ Référence : [Projet — Code secret en couleurs](https://docs.google.com/docum
 
 Le projet reste sans compte, paiement, serveur applicatif, classement en ligne, données personnelles, service d’IA ni clé API. L’installation comme application web progressive (PWA), le hors-ligne et les extensions sont facultatifs.
 
-## Choix proposés avec Codex
+## Choix réalisés avec Codex
 
-Ces propositions sont à relire avant réalisation ; ce ne sont pas des règles imposées :
+Choix d’interface acceptés par l’étudiante avant cette première réalisation ; ce ne sont pas des règles imposées :
 
 - Afficher le nom de chaque couleur avec son pion pour permettre de l’identifier autrement que par sa teinte.
 - Utiliser quatre sélecteurs numérotés et un bouton « Valider » pour rendre l’ordre et la modification des choix compréhensibles au clavier et au toucher.
@@ -31,22 +35,34 @@ Ces propositions sont à relire avant réalisation ; ce ne sont pas des règles 
 
 ## Vérifications prévues
 
-Tous les cas ci-dessous sont **non vérifiés**. Après chaque essai, ajouter le résultat observé, la méthode manuelle ou automatisée, la version Git et les limites de l’environnement.
+Les contrôles indiqués « réussi » ci-dessous ont été exécutés sur la version 0.1.0, le 12 novembre 2026, dans Chromium sous Windows avec Playwright 1.65.0. Les autres restent non vérifiés. Aucun défaut préexistant n’a été inventé pour présenter une correction.
 
 | Cas | Action et résultat attendu | Observé / version |
 | --- | --- | --- |
-| Proposition incomplète | Choisir trois couleurs et tenter de valider : refus expliqué, compteur et historique inchangés. | Non vérifié ; aucun jeu. |
-| Proposition valide | Valider quatre couleurs autorisées : un essai consommé, proposition et indices ajoutés à l’historique. | Non vérifié. |
+| Proposition incomplète | Choisir trois couleurs et tenter de valider : refus expliqué, compteur et historique inchangés. | Réussi, test navigateur automatisé, v0.1.0 : zéro essai et aucune entrée. Refus également vérifié après une proposition acceptée, sans altérer l’historique existant. |
+| Proposition valide | Valider quatre couleurs autorisées : un essai consommé, proposition et indices ajoutés à l’historique. | Partiellement vérifié, test navigateur automatisé, v0.1.0 : compteur à un et couleurs enregistrées dans l’ordre, répétitions acceptées. Les indices restent à réaliser. |
 | Couleur interdite | Pendant une partie, envoyer un identifiant interdit via `submitGuess` : `invalid-color`, compteur et historique inchangés. | Non vérifié. |
 | Ordre | Secret rouge–bleu–vert–jaune ; proposition rouge–vert–bleu–orange : 1 bien placée et 2 mal placées. | Non vérifié. |
 | Répétitions | Secret rouge–rouge–bleu–vert ; proposition de quatre rouges : 2 bien placées et 0 mal placée. | Non vérifié. |
 | Dixième essai gagnant | Après neuf propositions incorrectes, proposer le secret : victoire au dixième essai. | Non vérifié. |
 | Défaite et fin | Dix propositions incorrectes : défaite. Une validation après défaite ou victoire ne change rien. | Non vérifié. |
-| Redémarrage | « Nouvelle partie » efface essais, historique et indices et effectue un nouveau tirage. Un nouveau tirage peut donner le même code. | Non vérifié. |
-| Accessibilité et mobile | Jouer au clavier puis sur smartphone ; commandes accessibles, couleurs nommées et affichage lisible. | Non vérifié ; noter appareil et navigateur. |
+| Redémarrage | « Nouvelle partie » efface essais, historique et indices et effectue un nouveau tirage. Un nouveau tirage peut donner le même code. | Partiellement vérifié, v0.1.0 : « Recommencer » efface compteur, historique et sélection. Le tirage et les indices ne sont pas réalisés. |
+| Accessibilité et mobile | Jouer au clavier puis sur smartphone ; commandes accessibles, couleurs nommées et affichage lisible. | Sélection et validation au clavier réussies, v0.1.0. Largeur de 390 px sans débordement et capture inspectée. Aucun essai sur un vrai smartphone ; jeu complet non vérifié. |
 | API commune 0.2 | Vérifier le contrat et le partage du même jeu et du même état avec l’interface. | Contrat reçu ; implémentation et tests non réalisés. |
 
 Les exemples avec secret fixe utiliseront `startGame({ secret: [...] })` en mode test. La conformité de l’API n’a pas encore été vérifiée.
+
+### Reproduire les contrôles de cette étape
+
+Depuis la racine du dépôt, avec Node.js et npm disponibles et un accès réseau pour les premiers téléchargements :
+
+```sh
+npm ci
+npx playwright install chromium
+npm test
+```
+
+Le script [tests/selection.spec.cjs](tests/selection.spec.cjs) ouvre le fichier HTML réel. Résultat observé : **4 passed**. Dans l’environnement de développement, les dépendances ont été installées depuis le cache npm (`npm install --offline`) et le navigateur Chromium déjà téléchargé a été utilisé. `npm ci` est fourni pour la réinstallation à partir du fichier de versions `package-lock.json` ; il n’a pas été exécuté dans ce projet lors de cette étape. La configuration est dans [playwright.config.cjs](playwright.config.cjs). Les diagnostics d’échec restent dans `test-results/`, hors Git.
 
 ## API commune de test 0.2
 
@@ -59,8 +75,8 @@ Les futurs tests couvriront les neuf exemples T01–T09, la priorité des erreur
 ## Questions ouvertes et limites
 
 - Le contrat de l’API est disponible ; son implémentation et la vérification de conformité restent à réaliser.
-- Relire les choix d’interface avant réalisation.
-- Choisir l’organisation des fichiers et les outils de test à la première réalisation ; aucune commande de test ou d’installation n’existe encore.
+- Réaliser ensuite le moteur commun : secret, comptage des indices, fin de partie, puis API et tests de conformité.
+- Organisation actuelle : `index.html` pour la page, `style.css` pour la présentation, `app.js` pour la sélection/validation et `tests/` pour les contrôles navigateur. Les chemins sont relatifs pour préparer GitHub Pages.
 - Pour une correction réelle, conserver le défaut observé avant modification puis le résultat du même essai après correction. Ne pas inventer de défaut pour le rendu.
 
 ## Versions et reprise

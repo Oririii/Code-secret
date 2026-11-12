@@ -1,0 +1,8 @@
+{
+  "name": "code-secret",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Première étape du Code secret : sélectionner et valider quatre couleurs",
+  "scripts": { "test": "playwright test" },
+  "devDependencies": { "@playwright/test": "1.65.0" }
+}

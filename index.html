@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183b37">
+  <title>Code secret · À vous de composer</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">Le jeu des couleurs <span>Étape 01</span></p>
+      <h1>Code secret<span>.</span></h1>
+      <p class="intro">Quatre positions. Six couleurs. À vous de composer.</p>
+    </header>
+
+    <aside class="notice" aria-label="Version en cours">
+      <strong>Une première étape à essayer</strong>
+      <p>Cette démonstration vérifie la sélection et la validation des couleurs. Le code caché, les indices et la victoire seront ajoutés ensuite.</p>
+    </aside>
+
+    <section class="composer" aria-labelledby="composer-title">
+      <div class="section-heading">
+        <h2 id="composer-title">Votre proposition</h2>
+        <p id="selection-count" role="status">0 / 4 couleurs</p>
+      </div>
+      <form id="guess-form" novalidate>
+        <fieldset>
+          <legend class="sr-only">Choisissez les quatre couleurs, de gauche à droite</legend>
+          <div class="positions">
+            <div class="position"><label for="color-1">Position 1</label><span class="swatch" aria-hidden="true"></span><select id="color-1" name="color-1"><option value="">Choisir</option></select></div>
+            <div class="position"><label for="color-2">Position 2</label><span class="swatch" aria-hidden="true"></span><select id="color-2" name="color-2"><option value="">Choisir</option></select></div>
+            <div class="position"><label for="color-3">Position 3</label><span class="swatch" aria-hidden="true"></span><select id="color-3" name="color-3"><option value="">Choisir</option></select></div>
+            <div class="position"><label for="color-4">Position 4</label><span class="swatch" aria-hidden="true"></span><select id="color-4" name="color-4"><option value="">Choisir</option></select></div>
+          </div>
+        </fieldset>
+        <p class="hint">Les répétitions sont autorisées. Chaque position doit avoir une couleur.</p>
+        <p id="error" role="alert"></p>
+        <div class="actions"><button id="validate" type="submit">Valider la proposition <span aria-hidden="true">↗</span></button><button id="restart" class="secondary" type="button">Recommencer</button></div>
+        <p id="feedback" role="status"></p>
+      </form>
+    </section>
+
+    <section class="history" aria-labelledby="history-title">
+      <div class="section-heading"><h2 id="history-title">Vos essais</h2><p id="attempts">0 / 10</p></div>
+      <p id="empty-history">Vos propositions complètes apparaîtront ici.</p>
+      <ol id="history" aria-label="Propositions enregistrées"></ol>
+    </section>
+    <footer><p>La règle à vérifier : une proposition incomplète ne consomme aucun essai.</p><p>Version 0.1.0 · Sélection & validation</p></footer>
+  </main>
+</body>
+</html>
