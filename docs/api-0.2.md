@@ -83,4 +83,4 @@ Avec le secret de quatre rouges, prévoir aussi : neuf propositions de quatre bl
 
 Tester sur l’URL publiée avec `test=1`, attendre l’objet, vérifier aussi son absence sans le paramètre. Comparer chaque résultat à l’écran puis saisir une action dans l’interface et relire `getState()`. Utiliser des chemins relatifs compatibles avec le sous-chemin du dépôt, un contexte de navigateur neuf et la version remise. Une extension facultative ne change pas ce contrat ; aucun serveur applicatif, service d’IA, donnée personnelle ou clé d’accès n’est intégré.
 
-État actuel : tous ces contrôles restent non exécutés. L’outil de test enseignant n’est pas fourni avec le contrat ; les propres tests du projet devront compléter, sans les présumer réussis, les contrôles enseignants.
+État actuel : le moteur interne est testé sur T01–T09 et plusieurs cas de cycle de vie et de refus (voir README). L’API publique n’est pas encore exposée : sa conformité et les contrôles d’intégration API restent non exécutés. L’outil de test enseignant n’est pas fourni avec le contrat ; les propres tests du projet complètent les contrôles enseignants sans en présumer les résultats.

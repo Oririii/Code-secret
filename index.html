@@ -6,19 +6,20 @@
   <meta name="theme-color" content="#183b37">
   <title>Code secret · À vous de composer</title>
   <link rel="stylesheet" href="style.css">
+  <script src="engine.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
   <main>
     <header>
-      <p class="eyebrow">Le jeu des couleurs <span>Étape 01</span></p>
+      <p class="eyebrow">Le jeu des couleurs <span>Étape 02</span></p>
       <h1>Code secret<span>.</span></h1>
       <p class="intro">Quatre positions. Six couleurs. À vous de composer.</p>
     </header>
 
-    <aside class="notice" aria-label="Version en cours">
-      <strong>Une première étape à essayer</strong>
-      <p>Cette démonstration vérifie la sélection et la validation des couleurs. Le code caché, les indices et la victoire seront ajoutés ensuite.</p>
+    <aside class="notice" aria-label="Règles du jeu">
+      <strong>Un code caché. Dix essais pour le trouver.</strong>
+      <p>Le jeu tire quatre couleurs au hasard, avec répétitions possibles. Après chaque proposition, « bien placées » compte les bonnes couleurs à la bonne position ; « mal placées » compte celles présentes ailleurs. Les indices ne désignent pas les positions.</p>
     </aside>
 
     <section class="composer" aria-labelledby="composer-title">
@@ -38,7 +39,7 @@
         </fieldset>
         <p class="hint">Les répétitions sont autorisées. Chaque position doit avoir une couleur.</p>
         <p id="error" role="alert"></p>
-        <div class="actions"><button id="validate" type="submit">Valider la proposition <span aria-hidden="true">↗</span></button><button id="restart" class="secondary" type="button">Recommencer</button></div>
+        <div class="actions"><button id="validate" type="submit">Valider la proposition <span aria-hidden="true">↗</span></button><button id="restart" class="secondary" type="button">Nouvelle partie</button></div>
         <p id="feedback" role="status"></p>
       </form>
     </section>
@@ -48,7 +49,7 @@
       <p id="empty-history">Vos propositions complètes apparaîtront ici.</p>
       <ol id="history" aria-label="Propositions enregistrées"></ol>
     </section>
-    <footer><p>La règle à vérifier : une proposition incomplète ne consomme aucun essai.</p><p>Version 0.1.0 · Sélection & validation</p></footer>
+    <footer><p>Une proposition incomplète ne consomme aucun essai. Une couleur ne compte jamais deux fois dans les indices.</p><p>Version 0.2.0 · Code caché & indices</p></footer>
   </main>
 </body>
 </html>

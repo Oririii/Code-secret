@@ -22,7 +22,7 @@
 
 - Avant de coder une étape, préciser les actions d’essai et le résultat attendu. Après modification, vérifier le comportement concerné et un cas valide.
 - Pour une correction, conserver un exemple réel du défaut avant modification puis le résultat du même essai après. Ne pas fabriquer de preuve.
-- Les tests navigateur sont dans `tests/selection.spec.cjs` ; lire le README pour les commandes d’installation et `npm test`. Ajouter seulement des commandes qui existent et préciser celles non exécutées. Le prototype 0.1.0 vérifie la sélection/validation ; ne pas le présenter comme un jeu ou une API complets.
+- Les tests du moteur sont dans `tests/engine.test.cjs` et les essais navigateur dans `tests/selection.spec.cjs` ; `npm test` exécute les deux groupes. Lire le README pour l’installation. Ajouter seulement des commandes qui existent et préciser celles non exécutées. Le jeu 0.2.0 a un moteur et des indices ; l’API publique n’est pas encore exposée. Ne pas confondre version du jeu et conformité API 0.2.
 - Vérifier les répétitions, les propositions invalides, la victoire au dixième essai, la défaite, le blocage après la fin et le redémarrage. Vérifier l’interface et, lorsque disponible, la conformité à l’API 0.2.
 - Pour chaque essai, noter attendu, observé, version, méthode et limites. Un test sur ordinateur ne remplace pas un essai réel sur smartphone.
 - Restituer en français les changements, contrôles exécutés, branche publiée et prochaine étape. Indiquer « non vérifié » quand aucune preuve d’exécution n’est disponible.

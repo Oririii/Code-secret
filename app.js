@@ -1,13 +1,13 @@
+(() => {
 "use strict";
 
-// Première étape : sélection et validation. Aucun moteur de score ni API simulée.
-const colors = ["rouge", "bleu", "vert", "jaune", "orange", "violet"];
+const colors = CodeSecretGame.colors;
+const game = CodeSecretGame.createGame();
 const selects = Array.from(document.querySelectorAll("select"));
 const error = document.getElementById("error");
 const feedback = document.getElementById("feedback");
 const history = document.getElementById("history");
 const validate = document.getElementById("validate");
-let guesses = [];
 
 selects.forEach(select => {
   colors.forEach(color => select.add(new Option(color[0].toUpperCase() + color.slice(1), color)));
@@ -21,10 +21,11 @@ function renderSelection() {
 }
 
 function renderHistory() {
-  document.getElementById("attempts").textContent = `${guesses.length} / 10`;
-  document.getElementById("empty-history").hidden = guesses.length !== 0;
+  const state = game.snapshot();
+  document.getElementById("attempts").textContent = `${state.attempts} / 10`;
+  document.getElementById("empty-history").hidden = state.attempts !== 0;
   history.replaceChildren();
-  guesses.forEach((guess, index) => {
+  state.history.forEach(({ guess, result }, index) => {
     const row = document.createElement("li");
     const number = document.createElement("span");
     number.className = "attempt-number";
@@ -39,35 +40,40 @@ function renderHistory() {
       chip.append(dot, document.createTextNode(color));
       row.append(chip);
     });
+    const indices = document.createElement("span");
+    indices.className = "indices";
+    indices.textContent = `${result.wellPlaced} bien placée${result.wellPlaced === 1 ? "" : "s"} · ${result.misplaced} mal placée${result.misplaced === 1 ? "" : "s"}`;
+    row.append(indices);
     history.append(row);
   });
-  validate.disabled = guesses.length === 10;
+  const finished = state.status === "won" || state.status === "lost";
+  validate.disabled = finished;
+  selects.forEach(select => { select.disabled = finished; });
+  error.textContent = state.lastError?.message || "";
+  feedback.textContent = state.status === "won" ? "Bravo, vous avez trouvé le code secret !"
+    : state.status === "lost" ? "Les dix essais sont épuisés. Lancez une nouvelle partie pour réessayer."
+    : state.attempts ? "Proposition enregistrée. Utilisez les indices pour votre prochain essai."
+    : "À vous de jouer : le code secret est prêt.";
 }
 
 document.getElementById("guess-form").addEventListener("submit", event => {
   event.preventDefault();
-  if (guesses.length >= 10) return;
+  if (game.snapshot().status !== "playing") return;
   const guess = selects.map(select => select.value);
-  feedback.textContent = "";
   if (guess.some(color => !color)) {
+    // Les positions vides ne sont pas des couleurs ; transmettre une proposition incomplète au moteur.
+    game.submit(guess.filter(Boolean));
+    renderHistory();
     error.textContent = "Choisissez les quatre couleurs avant de valider. Aucun essai n’a été consommé.";
     selects.find(select => !select.value).focus();
     return;
   }
-  if (guess.some(color => !colors.includes(color))) {
-    error.textContent = "Une couleur n’est pas autorisée. Aucun essai n’a été consommé.";
-    return;
-  }
-  guesses.push(guess);
-  error.textContent = "";
-  feedback.textContent = guesses.length === 10
-    ? "Dix propositions enregistrées. Vous pouvez recommencer."
-    : "Proposition enregistrée.";
+  game.submit(guess);
   renderHistory();
 });
 
 document.getElementById("restart").addEventListener("click", () => {
-  guesses = [];
+  game.start();
   selects.forEach(select => { select.value = ""; });
   error.textContent = "";
   feedback.textContent = "";
@@ -76,5 +82,7 @@ document.getElementById("restart").addEventListener("click", () => {
   selects[0].focus();
 });
 
+game.start();
 renderSelection();
 renderHistory();
+})();

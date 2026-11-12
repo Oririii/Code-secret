@@ -4,9 +4,9 @@ Jeu solo inspiré du Mastermind : retrouver un code caché de quatre couleurs en
 
 ## État actuel
 
-Version **0.1.0 — sélection et validation** : quatre sélecteurs nommés, indicateur du nombre de couleurs, refus des propositions incomplètes, enregistrement des propositions complètes, compteur et remise à zéro. Le code caché, les indices, la victoire/défaite et l’API commune ne sont pas encore réalisés. Ce prototype ne constitue pas encore une partie complète de Code secret.
+Version **0.2.0 — code caché et indices** : le jeu choisit quatre couleurs au hasard, conserve le code caché et indique les couleurs bien placées et mal placées après chaque proposition. Dix essais, victoire (y compris au dixième), défaite, blocage après la fin et nouvelle partie sont réalisés. L’API commune de test n’est pas encore exposée ; cette version du jeu ne signifie pas que l’API de même numéro est conforme.
 
-Pour essayer : récupérer la branche `dev`, puis ouvrir [index.html](index.html) localement dans un navigateur. Aucun serveur ni installation n’est nécessaire pour cette démonstration. Choisir trois couleurs et valider : le refus doit laisser le compteur et l’historique inchangés. Ajouter la quatrième puis valider : une proposition est enregistrée. « Recommencer » efface cette série de propositions.
+Pour jouer : récupérer la branche `dev`, puis ouvrir [index.html](index.html) localement dans un navigateur. Aucun serveur ni installation n’est nécessaire. Composer quatre couleurs puis valider et utiliser les deux indices pour ajuster la proposition suivante. Les indices ne disent pas quelles positions sont concernées. « Nouvelle partie » tire un code et efface les essais. Le secret n’est pas révélé, même après la fin.
 
 L’application n’est pas encore publiée sur GitHub Pages. Le rendu visé reste utilisable sur ordinateur et smartphone, au clavier et au toucher.
 
@@ -35,22 +35,22 @@ Choix d’interface acceptés par l’étudiante avant cette première réalisat
 
 ## Vérifications prévues
 
-Les contrôles indiqués « réussi » ci-dessous ont été exécutés sur la version 0.1.0, le 12 novembre 2026, dans Chromium sous Windows avec Playwright 1.65.0. Les autres restent non vérifiés. Aucun défaut préexistant n’a été inventé pour présenter une correction.
+Contrôles de la version 0.2.0 exécutés le 12 novembre 2026 : tests du moteur avec Node.js et essais dans Chromium sous Windows avec Playwright 1.65.0. Les limites sont indiquées pour chaque cas. Aucun défaut préexistant n’a été inventé pour présenter une correction.
 
 | Cas | Action et résultat attendu | Observé / version |
 | --- | --- | --- |
-| Proposition incomplète | Choisir trois couleurs et tenter de valider : refus expliqué, compteur et historique inchangés. | Réussi, test navigateur automatisé, v0.1.0 : zéro essai et aucune entrée. Refus également vérifié après une proposition acceptée, sans altérer l’historique existant. |
-| Proposition valide | Valider quatre couleurs autorisées : un essai consommé, proposition et indices ajoutés à l’historique. | Partiellement vérifié, test navigateur automatisé, v0.1.0 : compteur à un et couleurs enregistrées dans l’ordre, répétitions acceptées. Les indices restent à réaliser. |
-| Couleur interdite | Pendant une partie, envoyer un identifiant interdit via `submitGuess` : `invalid-color`, compteur et historique inchangés. | Non vérifié. |
-| Ordre | Secret rouge–bleu–vert–jaune ; proposition rouge–vert–bleu–orange : 1 bien placée et 2 mal placées. | Non vérifié. |
-| Répétitions | Secret rouge–rouge–bleu–vert ; proposition de quatre rouges : 2 bien placées et 0 mal placée. | Non vérifié. |
-| Dixième essai gagnant | Après neuf propositions incorrectes, proposer le secret : victoire au dixième essai. | Non vérifié. |
-| Défaite et fin | Dix propositions incorrectes : défaite. Une validation après défaite ou victoire ne change rien. | Non vérifié. |
-| Redémarrage | « Nouvelle partie » efface essais, historique et indices et effectue un nouveau tirage. Un nouveau tirage peut donner le même code. | Partiellement vérifié, v0.1.0 : « Recommencer » efface compteur, historique et sélection. Le tirage et les indices ne sont pas réalisés. |
-| Accessibilité et mobile | Jouer au clavier puis sur smartphone ; commandes accessibles, couleurs nommées et affichage lisible. | Sélection et validation au clavier réussies, v0.1.0. Largeur de 390 px sans débordement et capture inspectée. Aucun essai sur un vrai smartphone ; jeu complet non vérifié. |
+| Proposition incomplète | Choisir trois couleurs et tenter de valider : refus expliqué, compteur et historique inchangés. | Réussi dans Chromium, même avec historique existant. |
+| Proposition valide | Valider quatre couleurs autorisées : un essai consommé, proposition et indices ajoutés à l’historique. | Réussi dans Chromium : couleurs et indices visibles, répétitions acceptées. |
+| Couleur interdite | Envoyer un identifiant interdit : `invalid-color`, compteur et historique inchangés. | Réussi sur le moteur interne ; API publique encore absente. |
+| Ordre | Secret rouge–bleu–vert–jaune ; proposition rouge–vert–bleu–orange : 1 bien placée et 2 mal placées. | Réussi sur le moteur (T01) ; les neuf exemples T01–T09 passent. |
+| Répétitions | Secret rouge–rouge–bleu–vert ; proposition de quatre rouges : 2 bien placées et 0 mal placée. | Réussi sur le moteur et dans Chromium : indices 2/0. Le cas rouge–bleu–rouge–rouge donne aussi 1/2. |
+| Dixième essai gagnant | Après neuf propositions incorrectes, proposer le secret : victoire au dixième essai. | Réussi sur le moteur et dans Chromium ; un refus au neuvième essai ne consomme rien. |
+| Défaite et fin | Dix propositions incorrectes : défaite. Une validation après défaite ou victoire ne change rien. | Réussi sur le moteur et dans Chromium : commandes bloquées, historique conservé. |
+| Redémarrage | « Nouvelle partie » efface essais, historique et indices et effectue un nouveau tirage. Un nouveau tirage peut donner le même code. | Réussi sur le moteur et dans Chromium depuis victoire/défaite. Un générateur contrôlé vérifie le nouveau tirage et la stabilité du secret entre les coups. |
+| Accessibilité et mobile | Jouer au clavier puis sur smartphone ; commandes accessibles, couleurs nommées et affichage lisible. | Sélection/validation au clavier réussies. Capture large et capture à 390 px inspectées, sans débordement horizontal à 390 px. Vrai smartphone et partie complète au clavier non vérifiés. |
 | API commune 0.2 | Vérifier le contrat et le partage du même jeu et du même état avec l’interface. | Contrat reçu ; implémentation et tests non réalisés. |
 
-Les exemples avec secret fixe utiliseront `startGame({ secret: [...] })` en mode test. La conformité de l’API n’a pas encore été vérifiée.
+Les tests unitaires imposent le secret dans le moteur interne. Les tests navigateur contrôlent uniquement leur générateur aléatoire pour reproduire le code rouge–rouge–bleu–vert, sans ajouter de commande de triche à l’interface. La future API utilisera `startGame({ secret: [...] })` en mode test ; sa conformité n’est pas encore vérifiée.
 
 ### Essai manuel confirmé
 
@@ -73,7 +73,9 @@ npx playwright install chromium
 npm test
 ```
 
-Le script [tests/selection.spec.cjs](tests/selection.spec.cjs) ouvre le fichier HTML réel. Résultat observé : **4 passed**. Dans l’environnement de développement, les dépendances ont été installées depuis le cache npm (`npm install --offline`) et le navigateur Chromium déjà téléchargé a été utilisé. `npm ci` est fourni pour la réinstallation à partir du fichier de versions `package-lock.json` ; il n’a pas été exécuté dans ce projet lors de cette étape. La configuration est dans [playwright.config.cjs](playwright.config.cjs). Les diagnostics d’échec restent dans `test-results/`, hors Git.
+`npm test` exécute [tests/engine.test.cjs](tests/engine.test.cjs), puis [tests/selection.spec.cjs](tests/selection.spec.cjs) sur le fichier HTML réel. Résultat observé sur la version 0.2.0 : **14 tests du moteur réussis et 7 tests navigateur réussis**. `npm run test:unit` et `npm run test:browser` lancent chaque groupe séparément.
+
+Dans cet environnement, les dépendances proviennent du cache npm et Chromium était déjà téléchargé. `npm ci` sert à réinstaller depuis `package-lock.json` ; il n’a pas été exécuté lors de cette étape. La configuration est dans [playwright.config.cjs](playwright.config.cjs). Les diagnostics d’échec restent dans `test-results/`, hors Git. Les secrets imposés et générateurs contrôlés appartiennent aux tests ; une partie normale tire son code au hasard.
 
 ## API commune de test 0.2
 
@@ -81,13 +83,13 @@ Le contrat a été fourni : « API commune de test — Code secret en couleurs �
 
 À réaliser : avec `?test=1`, exposer `window.codeSecretTest` de version `0.2`, initialement dans l’état `not-started`. Sans ce paramètre, cet objet ne doit pas être exposé. `getConfig()` et `getState()` sont synchrones ; `startGame(options?)` et `submitGuess(guess)` renvoient des promesses. L’API et l’interface doivent utiliser la même partie, sans révéler le secret.
 
-Les futurs tests couvriront les neuf exemples T01–T09, la priorité des erreurs, les démarrages invalides sans mutation, les copies indépendantes, le cycle de vie et la concordance avec l’écran, puis le fonctionnement sur l’URL publiée. Tous restent non exécutés à ce stade.
+Le moteur a été vérifié sur T01–T09, plusieurs refus, les copies indépendantes et le cycle de vie ; cela ne remplace pas les tests de l’API. L’exposition conditionnelle, la forme des options, les promesses, la conformité complète et l’accès depuis l’URL publiée restent à réaliser et tester.
 
 ## Questions ouvertes et limites
 
 - Le contrat de l’API est disponible ; son implémentation et la vérification de conformité restent à réaliser.
-- Réaliser ensuite le moteur commun : secret, comptage des indices, fin de partie, puis API et tests de conformité.
-- Organisation actuelle : `index.html` pour la page, `style.css` pour la présentation, `app.js` pour la sélection/validation et `tests/` pour les contrôles navigateur. Les chemins sont relatifs pour préparer GitHub Pages.
+- Réaliser ensuite l’adaptateur de l’API commune, ses tests et la publication GitHub Pages.
+- Organisation actuelle : `index.html` pour la page, `style.css` pour la présentation, `engine.js` pour le moteur partagé, `app.js` pour l’interface et `tests/` pour les contrôles. Les chemins sont relatifs pour préparer GitHub Pages.
 - Pour une correction réelle, conserver le défaut observé avant modification puis le résultat du même essai après correction. Ne pas inventer de défaut pour le rendu.
 
 ## Versions et reprise
