@@ -41,6 +41,19 @@
     let state = { status: "not-started", attempts: 0, history: [], lastGuess: null, lastResult: null, lastError: null };
     return {
       snapshot() { return copy(state); },
+      startGame(options = {}) {
+        if (options === null || typeof options !== "object" ||
+            Object.getPrototypeOf(options) !== Object.prototype ||
+            Reflect.ownKeys(options).some(key => key !== "secret")) {
+          throw Object.assign(new Error("Les options doivent être un objet contenant uniquement un éventuel secret."), { code: "invalid-options" });
+        }
+        if (Object.hasOwn(options, "secret")) {
+          const issue = validateCode(options.secret);
+          if (issue) throw Object.assign(new Error(issue.message), { code: issue.code });
+          return this.start(options.secret);
+        }
+        return this.start();
+      },
       // Un secret imposé sert aux tests du moteur ; il n’est jamais exposé dans l’état.
       start(fixedSecret) {
         const next = fixedSecret === undefined

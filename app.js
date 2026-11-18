@@ -97,34 +97,58 @@ function renderHistory() {
     : "À vous de jouer : le code secret est prêt.";
 }
 
+// L’interface et l’API partagent ces mutations et cette unique instance du moteur.
+function startGame(options) {
+  const state = game.startGame(options); // Valider avant toute modification de l’écran ou du temps.
+  startTimer();
+  selects.forEach(select => { select.value = ""; });
+  renderSelection();
+  renderHistory();
+  return state;
+}
+
+function submitGuess(guess) {
+  const state = game.submit(guess);
+  renderHistory();
+  return state;
+}
+
 document.getElementById("guess-form").addEventListener("submit", event => {
   event.preventDefault();
   if (game.snapshot().status !== "playing") return;
   const guess = selects.map(select => select.value);
   if (guess.some(color => !color)) {
     // Les positions vides ne sont pas des couleurs ; transmettre une proposition incomplète au moteur.
-    game.submit(guess.filter(Boolean));
-    renderHistory();
+    submitGuess(guess.filter(Boolean));
     error.textContent = "Choisissez les quatre couleurs avant de valider. Aucun essai n’a été consommé.";
     selects.find(select => !select.value).focus();
     return;
   }
-  game.submit(guess);
-  renderHistory();
+  submitGuess(guess);
 });
 
 document.getElementById("restart").addEventListener("click", () => {
-  game.start();
-  startTimer();
-  selects.forEach(select => { select.value = ""; });
-  error.textContent = "";
-  feedback.textContent = "";
-  renderSelection();
-  renderHistory();
+  startGame();
   selects[0].focus();
 });
 
 renderTimer();
 renderSelection();
 renderHistory();
+
+if (new URLSearchParams(window.location.search).get("test") === "1") {
+  window.codeSecretTest = Object.freeze({
+    version: "0.2",
+    getConfig() {
+      return {
+        apiVersion: "0.2", rulesVersion: "code-couleurs-1.0",
+        secretLength: 4, maxAttempts: 10, allowDuplicates: true,
+        colors: Array.from(colors),
+      };
+    },
+    getState() { return game.snapshot(); },
+    async startGame(options) { return startGame(options); },
+    async submitGuess(guess) { return submitGuess(guess); },
+  });
+}
 })();

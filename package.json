@@ -1,0 +1,15 @@
+{
+  "name": "code-secret",
+  "version": "0.4.0",
+  "private": true,
+  "description": "Code secret : code caché, indices et dix essais",
+  "scripts": {
+    "test": "node --test tests/engine.test.cjs && playwright test",
+    "test:unit": "node --test tests/engine.test.cjs",
+    "test:browser": "playwright test",
+    "test:api": "playwright test tests/api.spec.cjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.0"
+  }
+}
