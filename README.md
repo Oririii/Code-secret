@@ -40,7 +40,9 @@ Choix d’interface acceptés par l’étudiante avant cette première réalisat
 
 ## Vérifications prévues
 
-API 0.2 implémentée dans la version 0.4.0 : **14 tests du moteur et 31 tests navigateur réussis localement**, dont 17 scénarios dédiés à l’API dans [tests/api.spec.cjs](tests/api.spec.cjs). Ils vérifient la configuration, l’exposition conditionnelle, T01–T09 et leur affichage, les promesses, les refus et leur priorité, les options de démarrage, les copies indépendantes, les fins à dix essais, le redémarrage, la remise en attente au rechargement et le partage entre interface et API. Validation de cette version sur GitHub Pages à effectuer après publication. Les observations ci-dessous sur les versions antérieures restent historiques.
+API 0.2 implémentée dans la version 0.4.0, vérifiée le 18 novembre 2026 : **14 tests du moteur et 31 tests navigateur réussis localement**, dont 17 scénarios dédiés à l’API dans [tests/api.spec.cjs](tests/api.spec.cjs). Ils vérifient la configuration, l’exposition conditionnelle, T01–T09 et leur affichage, les promesses, les refus et leur priorité, les options de démarrage, les copies indépendantes, les fins à dix essais, le redémarrage, la remise en attente au rechargement et le partage entre interface et API.
+
+**Les mêmes 17 scénarios API ont aussi réussi sur GitHub Pages**, dans Chromium sous Windows, sur le code applicatif du commit `716a2af40e4448f90c4001cc6cec361acf2e486d`. Les fichiers publics `index.html`, `app.js`, `engine.js` et `style.css` ont été comparés à ceux testés et correspondent (fins de ligne normalisées). GitHub Pages publie désormais `main` à la racine ; il utilisait auparavant `dev`, ce qui affichait l’ancienne version sans API. Le test de démarrage invalide vérifie aussi qu’un chronomètre à 00:12 poursuit à 00:13 sans être réinitialisé. L’outil enseignant et un vrai smartphone restent non vérifiés. Les observations ci-dessous sur les versions antérieures restent historiques.
 
 Démarrage 0.3.1 vérifié le 18 novembre 2026 : **14 tests du moteur et 14 tests navigateur réussis**, soit 28. Le test de [tests/start.spec.cjs](tests/start.spec.cjs), exécuté avant la modification sur la version 0.3.0, observait quatre appels au générateur dès le chargement au lieu des zéro attendus pour la nouvelle demande. Après modification, le même test observe zéro appel, des commandes désactivées et `00:00` même après six minutes simulées. Un clic tire exactement quatre couleurs et lance le temps ; le redémarrage effectue un autre tirage ; l’actualisation remet en attente sans tirage. La capture de l’écran en attente a été inspectée. Les tests de partie et de chronomètre cliquent désormais explicitement sur « Nouvelle partie ».
 
@@ -61,7 +63,7 @@ Contrôles de la version 0.2.0 exécutés le 12 novembre 2026 : tests du moteur 
 | Défaite et fin | Dix propositions incorrectes : défaite. Une validation après défaite ou victoire ne change rien. | Réussi sur le moteur et dans Chromium : commandes bloquées, historique conservé. |
 | Redémarrage | « Nouvelle partie » efface essais, historique et indices et effectue un nouveau tirage. Un nouveau tirage peut donner le même code. | Réussi sur le moteur et dans Chromium depuis victoire/défaite. Un générateur contrôlé vérifie le nouveau tirage et la stabilité du secret entre les coups. |
 | Accessibilité et mobile | Jouer au clavier puis sur smartphone ; commandes accessibles, couleurs nommées et affichage lisible. | Sélection/validation au clavier réussies. Capture large et capture à 390 px inspectées, sans débordement horizontal à 390 px. Vrai smartphone et partie complète au clavier non vérifiés. |
-| API commune 0.2 | Vérifier le contrat et le partage du même jeu et du même état avec l’interface. | 17 scénarios API réussis en navigateur local, v0.4.0 ; validation en ligne à effectuer après publication. |
+| API commune 0.2 | Vérifier le contrat et le partage du même jeu et du même état avec l’interface. | 17 scénarios API réussis localement puis sur GitHub Pages, v0.4.0. Outil enseignant non fourni. |
 
 Les tests unitaires imposent le secret dans le moteur interne. Les tests navigateur de l’interface contrôlent leur générateur aléatoire ; les tests API utilisent `startGame({ secret: [...] })` en mode test. Aucune commande de révélation du secret n’est ajoutée à l’interface.
 
@@ -119,7 +121,7 @@ La suite conserve les paramètres de l’URL, ouvre un contexte navigateur neuf 
 
 ## Questions ouvertes et limites
 
-- Le contrat API est implémenté et ses scénarios sont testés localement. La vérification de la version publiée est à réaliser après le déploiement ; l’outil enseignant n’est pas fourni.
+- Le contrat API est implémenté et ses 17 scénarios passent localement ainsi que sur l’application publiée. Ces contrôles ne préjugent pas des résultats de l’outil enseignant, non fourni.
 - Organisation actuelle : `index.html` pour la page, `style.css` pour la présentation, `engine.js` pour le moteur partagé, `app.js` pour l’interface et `tests/` pour les contrôles. Les chemins sont relatifs pour préparer GitHub Pages.
 - Pour une correction réelle, conserver le défaut observé avant modification puis le résultat du même essai après correction. Ne pas inventer de défaut pour le rendu.
 

@@ -89,11 +89,14 @@ test('refus avant départ, types, tableaux creux, longueur, couleurs et getters 
 });
 
 test('startGame invalide rejette avec code sans modifier état, écran, sélection ou temps', async ({ page }) => {
+  await page.clock.install({ time: new Date('2026-11-18T12:00:00Z') });
+  await page.clock.pauseAt(new Date('2026-11-18T12:00:01Z'));
   await page.evaluate(async () => {
     await codeSecretTest.startGame({ secret: ['rouge','rouge','bleu','vert'] });
     await codeSecretTest.submitGuess(['rouge']); // lastError à conserver aussi.
   });
   await page.getByLabel('Position 1').selectOption('orange');
+  await page.clock.fastForward(12000);
   const results = await page.evaluate(async () => {
     const cases = [
       [null,'invalid-options'], [1,'invalid-options'], [[], 'invalid-options'],
@@ -122,6 +125,9 @@ test('startGame invalide rejette avec code sans modifier état, écran, sélecti
     expect(item.rejection.message.length).toBeGreaterThan(0);
     expect(item.after).toEqual(item.before); expect(item.sameHTML).toBe(true); expect(item.sameValues).toBe(true);
   }
+  await expect(page.getByRole('timer')).toHaveText('00:12');
+  await page.clock.fastForward(1000);
+  await expect(page.getByRole('timer')).toHaveText('00:13');
 });
 
 test('entrées, sorties et configuration restent indépendantes du moteur', async ({ page }) => {
