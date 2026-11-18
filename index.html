@@ -38,15 +38,15 @@
         <fieldset>
           <legend class="sr-only">Choisissez les quatre couleurs, de gauche à droite</legend>
           <div class="positions">
-            <div class="position"><label for="color-1">Position 1</label><span class="swatch" aria-hidden="true"></span><select id="color-1" name="color-1"><option value="">Choisir</option></select></div>
-            <div class="position"><label for="color-2">Position 2</label><span class="swatch" aria-hidden="true"></span><select id="color-2" name="color-2"><option value="">Choisir</option></select></div>
-            <div class="position"><label for="color-3">Position 3</label><span class="swatch" aria-hidden="true"></span><select id="color-3" name="color-3"><option value="">Choisir</option></select></div>
-            <div class="position"><label for="color-4">Position 4</label><span class="swatch" aria-hidden="true"></span><select id="color-4" name="color-4"><option value="">Choisir</option></select></div>
+            <div class="position"><label for="color-1">Position 1</label><span class="swatch" aria-hidden="true"></span><select disabled id="color-1" name="color-1"><option value="">Choisir</option></select></div>
+            <div class="position"><label for="color-2">Position 2</label><span class="swatch" aria-hidden="true"></span><select disabled id="color-2" name="color-2"><option value="">Choisir</option></select></div>
+            <div class="position"><label for="color-3">Position 3</label><span class="swatch" aria-hidden="true"></span><select disabled id="color-3" name="color-3"><option value="">Choisir</option></select></div>
+            <div class="position"><label for="color-4">Position 4</label><span class="swatch" aria-hidden="true"></span><select disabled id="color-4" name="color-4"><option value="">Choisir</option></select></div>
           </div>
         </fieldset>
         <p class="hint">Les répétitions sont autorisées. Chaque position doit avoir une couleur.</p>
         <p id="error" role="alert"></p>
-        <div class="actions"><button id="validate" type="submit">Valider la proposition <span aria-hidden="true">↗</span></button><button id="restart" class="secondary" type="button">Nouvelle partie</button></div>
+        <div class="actions"><button id="validate" type="submit" disabled>Valider la proposition <span aria-hidden="true">↗</span></button><button id="restart" class="secondary" type="button">Nouvelle partie</button></div>
         <p id="feedback" role="status"></p>
       </form>
     </section>
@@ -56,7 +56,7 @@
       <p id="empty-history">Vos propositions complètes apparaîtront ici.</p>
       <ol id="history" aria-label="Propositions enregistrées"></ol>
     </section>
-    <footer><p>Une proposition incomplète ne consomme aucun essai. Une couleur ne compte jamais deux fois dans les indices.</p><p>Version 0.3.0 · Code secret</p></footer>
+    <footer><p>Une proposition incomplète ne consomme aucun essai. Une couleur ne compte jamais deux fois dans les indices.</p><p>Version 0.3.1 · Code secret</p></footer>
   </main>
 </body>
 </html>

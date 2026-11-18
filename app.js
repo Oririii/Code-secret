@@ -86,10 +86,12 @@ function renderHistory() {
   });
   const finished = state.status === "won" || state.status === "lost";
   if (finished) stopTimer();
-  validate.disabled = finished;
-  selects.forEach(select => { select.disabled = finished; });
+  const waiting = state.status === "not-started";
+  validate.disabled = waiting || finished;
+  selects.forEach(select => { select.disabled = waiting || finished; });
   error.textContent = state.lastError?.message || "";
-  feedback.textContent = state.status === "won" ? "Bravo, vous avez trouvé le code secret !"
+  feedback.textContent = waiting ? "Cliquez sur « Nouvelle partie » pour tirer le code secret et commencer."
+    : state.status === "won" ? "Bravo, vous avez trouvé le code secret !"
     : state.status === "lost" ? "Les dix essais sont épuisés. Lancez une nouvelle partie pour réessayer."
     : state.attempts ? "Proposition enregistrée. Utilisez les indices pour votre prochain essai."
     : "À vous de jouer : le code secret est prêt.";
@@ -122,8 +124,7 @@ document.getElementById("restart").addEventListener("click", () => {
   selects[0].focus();
 });
 
-game.start();
-startTimer();
+renderTimer();
 renderSelection();
 renderHistory();
 })();

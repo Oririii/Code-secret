@@ -7,6 +7,7 @@ test.beforeEach(async ({ page }) => {
   await page.clock.pauseAt(new Date('2026-11-18T12:00:01Z'));
   await page.addInitScript(() => { Math.random = () => 0; }); // Secret : quatre rouges.
   await page.goto(pathToFileURL(path.resolve(__dirname, '../index.html')).href);
+  await page.getByRole('button', { name: 'Nouvelle partie' }).click();
 });
 
 async function submit(page, color) {

@@ -10,6 +10,7 @@ test.beforeEach(async ({ page }) => {
     Math.random = () => values[(i++) % values.length];
   });
   await page.goto(pathToFileURL(path.resolve(__dirname, '../index.html')).href);
+  await page.getByRole('button', { name: 'Nouvelle partie' }).click();
 });
 
 async function choose(page, colors) {
@@ -49,7 +50,7 @@ test('quatre couleurs et répétitions acceptées, puis refus sans altérer un h
 });
 
 test('sélection et validation accessibles au clavier', async ({ page }) => {
-  await page.keyboard.press('Tab');
+  // « Nouvelle partie » place le focus sur le premier sélecteur.
   for (let i = 1; i <= 4; i++) {
     await expect(page.getByLabel(`Position ${i}`)).toBeFocused();
     await page.keyboard.press('ArrowDown');

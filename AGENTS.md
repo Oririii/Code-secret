@@ -9,6 +9,7 @@
 - Si le message utilisateur se termine par `??`, reformuler brièvement et attendre son GO avant exécution. Une demande de plan sans modification ne permet pas de modifier les fichiers.
 - Les choix d’interface de la première étape ont été acceptés par l’utilisateur. Signaler les nouveaux choix qui changent le résultat attendu ; mettre le README à jour si l’usage ou les limites changent.
 - Garder une interface en français, utilisable au clavier et au toucher, avec noms ou symboles accompagnant les couleurs.
+- Respecter le démarrage explicite : avant le clic sur « Nouvelle partie », aucun code secret tiré et chronomètre à zéro, commandes de proposition désactivées. Une actualisation remet en attente.
 - Respecter les exclusions du README : notamment aucun serveur applicatif, donnée personnelle, service d’IA ou clé API dans le jeu. Les extensions facultatives préservent le mode commun.
 
 ## Git et confidentialité
