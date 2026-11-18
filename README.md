@@ -4,7 +4,7 @@ Jeu solo inspiré du Mastermind : retrouver un code caché de quatre couleurs en
 
 ## État actuel
 
-Version **0.2.0 — code caché et indices** : le jeu choisit quatre couleurs au hasard, conserve le code caché et indique les couleurs bien placées et mal placées après chaque proposition. Dix essais, victoire (y compris au dixième), défaite, blocage après la fin et nouvelle partie sont réalisés. L’API commune de test n’est pas encore exposée ; cette version du jeu ne signifie pas que l’API de même numéro est conforme.
+Version **0.2.1 — présentation beige, brun et rose poudré** : le jeu choisit quatre couleurs au hasard, conserve le code caché et indique les couleurs bien placées et mal placées après chaque proposition. Dix essais, victoire (y compris au dixième), défaite, blocage après la fin et nouvelle partie sont réalisés. L’API commune de test n’est pas encore exposée ; le numéro de version du jeu ne signifie pas que l’API 0.2 est conforme.
 
 Pour jouer : récupérer la branche `dev`, puis ouvrir [index.html](index.html) localement dans un navigateur. Aucun serveur ni installation n’est nécessaire. Composer quatre couleurs puis valider et utiliser les deux indices pour ajuster la proposition suivante. Les indices ne disent pas quelles positions sont concernées. « Nouvelle partie » tire un code et efface les essais. Le secret n’est pas révélé, même après la fin.
 
@@ -32,8 +32,11 @@ Choix d’interface acceptés par l’étudiante avant cette première réalisat
 - Afficher le nom de chaque couleur avec son pion pour permettre de l’identifier autrement que par sa teinte.
 - Utiliser quatre sélecteurs numérotés et un bouton « Valider » pour rendre l’ordre et la modification des choix compréhensibles au clavier et au toucher.
 - Commencer par la sélection et le refus de trois couleurs sans modifier le compteur ni l’historique, avant de construire le jeu complet.
+- Présentation demandée par l’étudiante : style sobre et élégant, fond beige, brun profond, noir doux et accents rose poudré. Titres à empattements et textes de jeu sans empattements, sans police téléchargée. Les six couleurs des pions restent distinctes et accompagnées de leur nom ; la palette décorative ne change pas les règles.
 
 ## Vérifications prévues
+
+Présentation 0.2.1 vérifiée le 18 novembre 2026 : les 14 tests du moteur et les 7 tests Chromium ont de nouveau réussi, dont la sélection/validation au clavier et l’absence de débordement horizontal à 390 px. Captures sur écran large et à 390 px inspectées : titres, contrôles, noms des couleurs et indices lisibles. Le moteur et les règles ne changent pas. Aucun nouvel essai sur un vrai smartphone ; l’API commune reste à réaliser.
 
 Contrôles de la version 0.2.0 exécutés le 12 novembre 2026 : tests du moteur avec Node.js et essais dans Chromium sous Windows avec Playwright 1.65.0. Les limites sont indiquées pour chaque cas. Aucun défaut préexistant n’a été inventé pour présenter une correction.
 
