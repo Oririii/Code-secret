@@ -28,6 +28,15 @@ h1 span { color: #986a6d; }
 .section-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 26px; }
 h2 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-weight: 400; font-size: 25px; letter-spacing: -.035em; }
 .section-heading p { margin: 0; font-size: 12px; font-weight: 600; white-space: nowrap; padding: 7px 10px; border-radius: 7px; background: #f2e7e2; color: var(--brown); }
+.heading-meta { display: flex; align-items: center; gap: 12px; }
+.timer-panel { display: grid; justify-items: center; gap: 2px; min-width: 104px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 9px; background: #f7f0eb; color: var(--brown); }
+#timer-label { font-size: 10px; letter-spacing: .04em; }
+#timer { font-size: 20px; font-weight: 650; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.timer-panel.is-urgent { color: #a51f2d; border-color: #bc5c65; background: #fff0ef; }
+.timer-panel.is-urgent.is-running #timer { animation: timer-urgency 1.4s ease-in-out infinite; }
+.timer-notice { margin: 0; color: #a51f2d; font-size: 12px; line-height: 1.7; }
+.timer-notice:not(:empty) { margin: -8px 0 20px; }
+@keyframes timer-urgency { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
 fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
 .positions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
 .position { display: grid; justify-items: center; gap: 20px; padding: 18px 10px 10px; border: 1px solid #e5d7cf; border-radius: 12px; background: #f7f0eb; }
@@ -74,8 +83,14 @@ footer p { margin: 0; max-width: 470px; }
   .section-heading { align-items: center; }
   h2 { font-size: 23px; }
   .section-heading p { font-size: 11px; padding: 6px 8px; }
+  .composer > .section-heading { flex-wrap: wrap; }
+  .composer > .section-heading h2 { flex-basis: 100%; }
+  .heading-meta { width: 100%; justify-content: space-between; }
   .notice { padding-left: 16px; margin-bottom: 28px; }
   .color-chip { font-size: 11px; }
   #history li { gap: 8px; }
 }
-@media (prefers-reduced-motion: reduce) { button { transition: none; } }
+@media (prefers-reduced-motion: reduce) {
+  button { transition: none; }
+  .timer-panel.is-urgent.is-running #timer { animation: none; }
+}

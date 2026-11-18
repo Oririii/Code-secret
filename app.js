@@ -8,6 +8,44 @@ const error = document.getElementById("error");
 const feedback = document.getElementById("feedback");
 const history = document.getElementById("history");
 const validate = document.getElementById("validate");
+const timer = document.getElementById("timer");
+const timerPanel = document.getElementById("timer-panel");
+const timerNotice = document.getElementById("timer-notice");
+let timerStartedAt = null;
+let timerStoppedElapsed = 0;
+let timerInterval = null;
+
+function renderTimer() {
+  // Mesurer le temps réel écoulé plutôt que compter les déclenchements de l’intervalle.
+  const elapsed = timerStartedAt === null ? timerStoppedElapsed : Math.max(0, Date.now() - timerStartedAt);
+  const seconds = Math.floor(elapsed / 1000);
+  timer.textContent = `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
+  const urgent = elapsed > 5 * 60 * 1000;
+  timerPanel.classList.toggle("is-urgent", urgent);
+  timerPanel.classList.toggle("is-running", timerStartedAt !== null);
+  const notice = urgent ? "Plus de cinq minutes écoulées. Vous pouvez toujours continuer à jouer." : "";
+  // Une annonce au changement de seuil ; ne pas interrompre la lecture à chaque seconde.
+  if (timerNotice.textContent !== notice) timerNotice.textContent = notice;
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timerStartedAt = Date.now();
+  timerStoppedElapsed = 0;
+  renderTimer();
+  timerInterval = setInterval(renderTimer, 250);
+}
+
+function stopTimer() {
+  if (timerStartedAt === null) return;
+  timerStoppedElapsed = Math.max(0, Date.now() - timerStartedAt);
+  timerStartedAt = null;
+  clearInterval(timerInterval);
+  timerInterval = null;
+  renderTimer();
+}
+
+document.addEventListener("visibilitychange", renderTimer);
 
 selects.forEach(select => {
   colors.forEach(color => select.add(new Option(color[0].toUpperCase() + color.slice(1), color)));
@@ -47,6 +85,7 @@ function renderHistory() {
     history.append(row);
   });
   const finished = state.status === "won" || state.status === "lost";
+  if (finished) stopTimer();
   validate.disabled = finished;
   selects.forEach(select => { select.disabled = finished; });
   error.textContent = state.lastError?.message || "";
@@ -74,6 +113,7 @@ document.getElementById("guess-form").addEventListener("submit", event => {
 
 document.getElementById("restart").addEventListener("click", () => {
   game.start();
+  startTimer();
   selects.forEach(select => { select.value = ""; });
   error.textContent = "";
   feedback.textContent = "";
@@ -83,6 +123,7 @@ document.getElementById("restart").addEventListener("click", () => {
 });
 
 game.start();
+startTimer();
 renderSelection();
 renderHistory();
 })();
