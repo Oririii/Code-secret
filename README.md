@@ -29,14 +29,9 @@ Le projet reste sans compte, paiement, serveur applicatif, classement en ligne, 
 
 ## Choix réalisés avec Codex
 
-Choix d’interface acceptés par l’étudiante avant cette première réalisation ; ce ne sont pas des règles imposées :
-
-- Afficher le nom de chaque couleur avec son pion pour permettre de l’identifier autrement que par sa teinte.
-- Utiliser quatre sélecteurs numérotés et un bouton « Valider » pour rendre l’ordre et la modification des choix compréhensibles au clavier et au toucher.
-- Commencer par la sélection et le refus de trois couleurs sans modifier le compteur ni l’historique, avant de construire le jeu complet.
-- Présentation demandée par l’étudiante : style sobre et élégant, fond beige, brun profond, noir doux et accents rose poudré. Titres à empattements et textes de jeu sans empattements, sans police téléchargée. Les six couleurs des pions restent distinctes et accompagnées de leur nom ; la palette décorative ne change pas les règles.
-- Chronomètre demandé par l’étudiante pour créer un sentiment d’urgence après cinq minutes. Ce choix d’interface conserve les dix essais et toutes les règles communes ; la valeur est calculée depuis l’heure de départ, même si les mises à jour de l’écran sont retardées. Le temps écoulé n’est pas annoncé à chaque seconde aux lecteurs d’écran ; le message de dépassement est annoncé au changement de seuil.
-- Démarrage explicite demandé par l’étudiante : aucun secret ni chronomètre actif au chargement. « Nouvelle partie » déclenche le tirage et place le focus sur la première position ; le clavier permet de démarrer par ce bouton.
+- J'ai demandé à codex de changer le thème graphique du jeu
+- J'ai demandé d'ajouté un timer et de donner un sentiment d'urgence visuel au joueur s'il dépasse 4 min 59 de jeu
+- J'ai demandé à codex de tester l'API et l'ai également testé à la main pour m'assurer que ça fonctionne
 
 ## Vérifications prévues
 
@@ -122,12 +117,19 @@ La suite conserve les paramètres de l’URL, ouvre un contexte navigateur neuf 
 ## Questions ouvertes et limites
 
 - Le contrat API est implémenté et ses 17 scénarios passent localement ainsi que sur l’application publiée. Ces contrôles ne préjugent pas des résultats de l’outil enseignant, non fourni.
-- Organisation actuelle : `index.html` pour la page, `style.css` pour la présentation, `engine.js` pour le moteur partagé, `app.js` pour l’interface et `tests/` pour les contrôles. Les chemins sont relatifs pour préparer GitHub Pages.
-- Pour une correction réelle, conserver le défaut observé avant modification puis le résultat du même essai après correction. Ne pas inventer de défaut pour le rendu.
+- Je n'ai pas testé sur tous les modèles de téléphone
 
 ## Versions et reprise
 
 Développement habituel sur `dev` ou `feat/...`. La publication de l’API sur `main` a été explicitement demandée par l’étudiante ; les publications suivantes sur `main` demandent une autorisation explicite. Les consignes de travail sont dans [AGENTS.md](AGENTS.md).
+
+## Validation par un camarade
+
+Un camarade à testé mon jeu et l'API, aucun bug n'a été signalé
+
+## Appareils testés
+
+Testé sur Windows et Iphone
 
 - **J1 : 20 novembre 2026 au soir**, heure exacte sur Cyberlearn : première version vérifiée, éventuellement incomplète ; liens dépôt/application, tag `jalon-1`, README avec choix expliqué, premiers tests, correction documentée et limites. Pas de vidéo à ce jalon.
 - **J2 : 18 décembre 2026 au soir**, heure exacte sur Cyberlearn : version `final`, API 0.2 fonctionnelle avec accès et vérifications de conformité sur l’application publiée, tests, correction expliquée, essai sur smartphone avec appareil et résultat, bref retour sur le jeu d’un camarade, README actualisé et vidéo individuelle de 4 à 5 minutes avec écran et voix.
